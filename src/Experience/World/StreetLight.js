@@ -26,7 +26,7 @@ export default class StreetLamp {
            this.scene.add(this.light)
 
            this.lightTarget = new THREE.Object3D()
-           this.lightTarget.position.set(-2.9, 0, 2) // світить вниз
+           this.lightTarget.position.set(-2.9, 0, 2)
            this.scene.add(this.lightTarget)
            this.light.target = this.lightTarget
 

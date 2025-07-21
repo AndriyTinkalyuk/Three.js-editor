@@ -35,12 +35,12 @@ export default class Experience {
 
         this.resourses.on('ready', () => {
             const loadingScreen = document.getElementById('loading-screen')
-            loadingScreen.classList.add('hidden') // приховуємо
-            
-            // Добавляем небольшую задержку для стабилизации
             setTimeout(() => {
-                this.world = new World()
+            loadingScreen.classList.add('hidden') // приховуємо
             }, 100)
+            
+                this.world = new World()
+            
         })
 
         this.sizes.on("resize", () => { 

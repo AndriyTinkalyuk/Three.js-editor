@@ -22,6 +22,7 @@ export default class Lamp {
            this.light = new THREE.PointLight('white', 3, 5)
            this.light.position.set(0.8, 0.8, 3)
            this.light.scale.set(0.2,0.2,0.2)
+           this.light.castShadow = true
            this.light.intensity = 0
            this.scene.add(this.light)
 
