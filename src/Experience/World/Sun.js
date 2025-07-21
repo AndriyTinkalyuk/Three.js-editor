@@ -7,9 +7,10 @@ export default class Sun {
         this.scene = this.experience.scene
         this.time = this.experience.time
 
-        this.radius = 20 // радіус кола, по якому рухається сонце
+        this.radius = 15 // радіус кола, по якому рухається сонце
         this.center = new THREE.Vector3(0, 0, 0) // центр сцени
         this.isDay = false
+        this.debug = this.experience.debug
 
           this.initialAngle = Math.PI;
 
@@ -18,6 +19,28 @@ export default class Sun {
         this.time.on('tick', () => {
             this.update()
         })
+
+            if(this.debug.active) {
+            this.debugFolder = this.debug.ui.addFolder('Sun')
+
+    this.debugFolder.add(this, 'radius')
+        .min(5).max(30).step(1).name('Orbit radius')
+
+    this.debugFolder.add(this, 'initialAngle')
+        .min(0).max(Math.PI * 2).step(0.01).name('Initial angle')
+
+    this.debugFolder.add(this.sunLight, 'intensity')
+        .min(0).max(5).step(0.1).name('Sun light intensity')
+
+    this.debugFolder.addColor({ color: '#ffdd00' }, 'color')
+        .name('Sun color')
+        .onChange(value => {
+            this.sunMesh.material.color.set(value)
+        })
+
+    this.debugFolder.add(this.scene.children.find(obj => obj.type === 'CameraHelper'), 'visible')
+        .name('Shadow camera helper')
+        }
     }
 
     setSun() {
@@ -38,17 +61,18 @@ export default class Sun {
         this.sunLight.shadow.camera.bottom = -10
         this.sunLight.shadow.camera.near = 1
         this.sunLight.shadow.camera.far = 35
-        this.sunLight.shadow.mapSize.set(1024, 1024)
+        this.sunLight.shadow.mapSize.set(512, 512)
 
-        // Target світла має бути в центрі
+        // Target світла 
         this.sunTarget = new THREE.Object3D()
         this.sunTarget.position.set(0, 0, 0)
         this.scene.add(this.sunTarget)
         this.sunLight.target = this.sunTarget
 
-        // Камера-помічник (опціонально)
+        // Камера-помічник
         const helper = new THREE.CameraHelper(this.sunLight.shadow.camera)
         this.scene.add(helper)
+        helper.visible = false
 
         this.scene.add(this.sunLight)
     }

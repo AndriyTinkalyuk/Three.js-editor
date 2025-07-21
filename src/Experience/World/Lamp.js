@@ -7,10 +7,12 @@ export default class Lamp {
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.resources = this.experience.resourses
+        this.debug = this.experience.debug
 
         this.resource = this.resources.items.lampModel
 
         this.setModel()
+        this.setDebug()
     }
 
        setModel() { 
@@ -20,13 +22,18 @@ export default class Lamp {
            console.log(this.model);
 
            this.light = new THREE.PointLight('white', 3, 5)
-           this.light.position.set(0.8, 0.8, 3)
-           this.light.scale.set(0.2,0.2,0.2)
+           this.light.position.set(0, 0.1, 0)
+           this.light.scale.set(0.1,0.1,0.1)
+           this.light.shadow.camera.near = 10;
+           this.light.shadow.camera.far = 25; 
+
+
            this.light.castShadow = true
            this.light.intensity = 0
-           this.scene.add(this.light)
+           this.model.add(this.light)
 
            this.helper = new THREE.PointLightHelper(this.light)
+           this.helper.visible = false
            this.scene.add(this.helper)
            
              this.scene.add(this.model)
@@ -37,6 +44,29 @@ export default class Lamp {
                }
              })
        }
+
+       setDebug() {
+    if (!this.debug.active) return
+
+    this.debugFolder = this.debug.ui.addFolder('Lamp')
+
+    this.debugFolder.add(this.light, 'intensity').min(0).max(10).step(0.1).name('Intensity')
+    this.debugFolder.add(this.light, 'distance').min(0).max(20).step(0.1).name('Distance')
+
+    this.debugFolder.addColor({ color: '#ffffff' }, 'color')
+        .name('Light color')
+        .onChange(value => {
+            this.light.color.set(value)
+        })
+
+    this.debugFolder.add(this.helper, 'visible').name('Show helper')
+
+    const modelPos = this.model.position
+    this.debugFolder.add(modelPos, 'x').min(-10).max(10).step(0.1).name('Model X')
+    this.debugFolder.add(modelPos, 'y').min(0).max(10).step(0.1).name('Model Y')
+    this.debugFolder.add(modelPos, 'z').min(-10).max(10).step(0.1).name('Model Z')
+}
+
 
        update(isDay) { 
           this.light.intensity = isDay ? 0 : 1
