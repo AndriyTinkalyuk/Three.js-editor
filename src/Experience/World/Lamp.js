@@ -8,11 +8,14 @@ export default class Lamp {
         this.scene = this.experience.scene
         this.resources = this.experience.resourses
         this.debug = this.experience.debug
+         this.raycaster = this.experience.raycaster
+         this.manualControl = false
 
         this.resource = this.resources.items.lampModel
 
         this.setModel()
         this.setDebug()
+        this.setResetButton()
     }
 
        setModel() { 
@@ -37,6 +40,9 @@ export default class Lamp {
            this.scene.add(this.helper)
            
              this.scene.add(this.model)
+
+             this.model.userData.onClick = () => this.toggle()
+             this.raycaster.addItem(this.model)
    
              this.model.traverse((child) => {
                if(child instanceof THREE.Mesh) {
@@ -69,6 +75,22 @@ export default class Lamp {
 
 
        update(isDay) { 
-          this.light.intensity = isDay ? 0 : 1
+        if(!this.manualControl) {
+        this.light.intensity = isDay ? 0 : 1
+        }
+       }
+
+       toggle() {
+        this.manualControl = true
+        this.light.intensity = 1 - this.light.intensity
+       }
+
+       resetManualControl() { 
+        this.manualControl = false
+       }
+
+       setResetButton() { 
+        const resetButton = document.querySelector('.reset-button')
+        resetButton.addEventListener("click", () => this.resetManualControl())
        }
 }

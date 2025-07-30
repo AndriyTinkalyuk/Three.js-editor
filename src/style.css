@@ -37,3 +37,20 @@ body
   opacity: 0;
   pointer-events: none;
 }
+
+.reset-button {
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  z-index: 999;
+  font-size: 16px;
+  padding: 8px 15px;
+  color: #161616;
+  background-color: rgb(214, 214, 6);
+}
+
+.reset-button:hover {
+  cursor: pointer;
+    color: #000000;
+  background-color: rgb(255, 255, 0);
+}

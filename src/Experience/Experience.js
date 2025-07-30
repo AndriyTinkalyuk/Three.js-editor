@@ -7,6 +7,7 @@ import World from './World/World'
 import Resourses from './Utils/Resourses'
 import sources from './sources'
 import Debug from './Utils/Debug'
+import Raycaster from './Utils/Raycaster'
 
 let instance = null
 
@@ -33,6 +34,7 @@ export default class Experience {
         this.camera = new Camera()
         this.resourses = new Resourses(sources)
         this.renderer = new Renderer()
+        this.raycaster = new Raycaster()
     
 
         this.resourses.on('ready', () => {
@@ -72,6 +74,7 @@ export default class Experience {
         this.renderer.update()
          if (this.world) {
         this.world.update()
+        this.raycaster.update()
     }
      }
 }
