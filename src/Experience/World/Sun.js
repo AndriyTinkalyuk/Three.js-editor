@@ -38,6 +38,9 @@ export default class Sun {
             this.sunMesh.material.color.set(value)
         })
 
+    this.debugFolder.add(this.sunLight.shadow, 'normalBias').min(- 0.05).max(0.05).step(0.001)
+    this.debugFolder.add(this.sunLight.shadow, 'bias').min(- 0.05).max(0.05).step(0.001)
+
     this.debugFolder.add(this.scene.children.find(obj => obj.type === 'CameraHelper'), 'visible')
         .name('Shadow camera helper')
         }
@@ -62,6 +65,9 @@ export default class Sun {
         this.sunLight.shadow.camera.near = 0.1
         this.sunLight.shadow.camera.far = 35
         this.sunLight.shadow.mapSize.set(1024, 1024)
+
+        this.sunLight.shadow.normalBias = 0.003
+        this.sunLight.shadow.bias = - 0.004
 
         // Target світла 
         this.sunTarget = new THREE.Object3D()
