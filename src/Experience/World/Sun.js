@@ -59,9 +59,9 @@ export default class Sun {
         this.sunLight.shadow.camera.right = 10
         this.sunLight.shadow.camera.top = 10
         this.sunLight.shadow.camera.bottom = -10
-        this.sunLight.shadow.camera.near = 1
+        this.sunLight.shadow.camera.near = 0.1
         this.sunLight.shadow.camera.far = 35
-        this.sunLight.shadow.mapSize.set(512, 512)
+        this.sunLight.shadow.mapSize.set(1024, 1024)
 
         // Target світла 
         this.sunTarget = new THREE.Object3D()
