@@ -8,6 +8,7 @@ import Resourses from './Utils/Resourses'
 import sources from './sources'
 import Debug from './Utils/Debug'
 import Raycaster from './Utils/Raycaster'
+import Postprocessing from './Postprocessing/Postprocessing'
 
 let instance = null
 
@@ -35,6 +36,7 @@ export default class Experience {
         this.resourses = new Resourses(sources)
         this.renderer = new Renderer()
         this.raycaster = new Raycaster()
+        this.postprocessing = new Postprocessing()
     
 
         this.resourses.on('ready', () => {
@@ -62,11 +64,12 @@ export default class Experience {
     resize() {
         this.camera.resize()
         this.renderer.resize()
+        this.postprocessing.resize()
         
       
-        requestAnimationFrame(() => {
-            this.renderer.instance.render(this.scene, this.camera.instance)
-        })
+        // requestAnimationFrame(() => {
+        //     this.renderer.instance.render(this.scene, this.camera.instance)
+        // })
      }
 
      update() {
@@ -76,6 +79,7 @@ export default class Experience {
         this.world.update()
     }
     
-        this.renderer.update()
+        // this.renderer.update()
+        this.postprocessing.update()
      }
 }
