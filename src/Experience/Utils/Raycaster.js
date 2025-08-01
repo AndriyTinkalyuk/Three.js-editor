@@ -19,27 +19,43 @@ export default class Raycaster {
         this.mouseMoveListener()
     }
 
-    addItem(item) {
-        this.items.push(item)
+addItem(item) {
+  item.traverse(child => {
+    if (child.isMesh) {
+      this.items.push(child)
     }
+  })
+}
 
-    clickListener() {
-      this.canvas.addEventListener("click", () => { 
-       if(this.hoveredGroup) {
-        console.log("clicked" + this.hoveredGroup);
-        const callback = this.hoveredGroup.userData.onClick
-        if (typeof callback === 'function') {
-        callback()
-    }
-       }
-      })
 
+  clickListener() {
+  this.canvas.addEventListener("click", () => {
+    this.raycaster.setFromCamera(this.cursor, this.camera)
+    const intersects = this.raycaster.intersectObjects(this.items, true)
+
+    if (intersects.length > 0) {
+      let obj = intersects[0].object
+      // Піднімаємось вгору по дереву до того, хто має onClick
+      while (obj && !obj.userData.onClick) {
+        obj = obj.parent
+      }
+
+      if (obj && typeof obj.userData.onClick === 'function') {
+        console.log("CLICK ON OBJECT", obj.name || obj)
+        obj.userData.onClick()
+      }
     }
+  })
+}
+
 
     mouseMoveListener() { 
     this.canvas.addEventListener("mousemove", (event) => { 
-        this.cursor.x = event.clientX /  this.sizes.width  * 2 - 1 
-        this.cursor.y = event.clientY /  this.sizes.height  * 2 - 1 
+        const rect = this.canvas.getBoundingClientRect()
+
+        
+    this.cursor.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
+    this.cursor.y = -((event.clientY - rect.top) / rect.height) * 2 + 1
       })
     }
 

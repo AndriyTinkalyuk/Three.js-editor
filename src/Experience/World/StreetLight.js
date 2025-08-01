@@ -9,10 +9,15 @@ export default class StreetLamp {
         this.resources = this.experience.resourses
         this.debug = this.experience.debug
 
+        this.raycaster = this.experience.raycaster
+        this.manualControl = false
+
         this.resource = this.resources.items.streetLampModel
 
         this.setModel()
         this.setDebug()
+
+        this.setResetButton()
       
         
     }
@@ -31,9 +36,12 @@ setModel() {
 
     this.light.target = this.lightTarget
 
+    this.model.userData.onClick = () => this.toggle()
 
     this.model.add(this.light)
     this.model.add(this.lightTarget)
+
+    this.raycaster.addItem(this.model)
 
 
     this.helper = new THREE.SpotLightHelper(this.light)
@@ -83,6 +91,23 @@ setDebug() {
 }
 
 update(isDay) { 
+    if(!this.manualControl){
    this.light.intensity = isDay ? 0 : 1
+}
+}
+
+toggle() { 
+     console.log("Лампа клікнута!")
+    this.manualControl = true
+    this.light.intensity = 1 - this.light.intensity
+}
+
+resetManualControl() { 
+    this.manualControl = false
+   }
+
+setResetButton() { 
+ const resetButton = document.querySelector('.reset-button')
+ resetButton.addEventListener("click", () => this.resetManualControl())
 }
 }

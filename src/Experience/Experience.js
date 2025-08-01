@@ -71,10 +71,11 @@ export default class Experience {
 
      update() {
         this.camera.update()
-        this.renderer.update()
+         this.raycaster.update()
          if (this.world) {
         this.world.update()
-        this.raycaster.update()
     }
+    
+        this.renderer.update()
      }
 }
