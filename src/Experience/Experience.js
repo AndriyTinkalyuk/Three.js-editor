@@ -6,9 +6,9 @@ import Renderer from './Renderer'
 import World from './World/World'
 import Resourses from './Utils/Resourses'
 import sources from './sources'
-import Debug from './Utils/Debug'
 import Raycaster from './Utils/Raycaster'
-import Postprocessing from './Postprocessing/Postprocessing'
+
+
 
 let instance = null
 
@@ -19,6 +19,7 @@ export default class Experience {
             return instance
         }
         instance = this
+        console.log('Experience constructor!')
         // Make instance accessible statically
         Experience.instance = this
         // Global access 
@@ -28,28 +29,30 @@ export default class Experience {
         this.canvas = canvas
 
         // Setup
-        this.debug = new Debug()
         this.sizes = new Sizes()
         this.time = new Time()
         this.scene = new THREE.Scene()
         this.camera = new Camera()
-        this.resourses = new Resourses(sources)
         this.renderer = new Renderer()
+        this.resourses = new Resourses(sources)
         this.raycaster = new Raycaster()
-        this.postprocessing = new Postprocessing()
+       
+       
+  
     
 
         this.resourses.on('ready', () => {
-            const loadingScreen = document.getElementById('loading-screen')
-            setTimeout(() => {
-            loadingScreen.classList.add('hidden') // приховуємо
-            }, 100)
-            
-                this.world = new World()
-            
+            this.world = new World()
+            console.log('Resources are ready!')
+               this.raycaster.clickListener(
+               this.world.selectMesh.bind(this.world),
+               this.world.deselectMesh.bind(this.world)
+)
+
         })
 
         this.sizes.on("resize", () => { 
+            console.log('Resize event triggered!')
             this.resize()
         })
 
@@ -64,22 +67,15 @@ export default class Experience {
     resize() {
         this.camera.resize()
         this.renderer.resize()
-        this.postprocessing.resize()
         
       
-        // requestAnimationFrame(() => {
-        //     this.renderer.instance.render(this.scene, this.camera.instance)
-        // })
+        requestAnimationFrame(() => {
+            this.renderer.instance.render(this.scene, this.camera.instance)
+        })
      }
 
      update() {
-        this.camera.update()
-         this.raycaster.update()
-         if (this.world) {
-        this.world.update()
-    }
-    
-        // this.renderer.update()
-        this.postprocessing.update()
+        this.camera.update()    
+        this.renderer.update()
      }
 }

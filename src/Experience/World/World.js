@@ -1,60 +1,56 @@
 import * as THREE from 'three'
 import Experience from '../Experience'
 import Environment  from './Environment'
-import Floor from './Floor'
-import House from './House'
-import Sun from './Sun'
-import Table from './Table'
-import Lamp from './Lamp'
-import StreetLamp from './StreetLight'
-import { Sky } from 'three/examples/jsm/Addons.js'
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js'
+import Sidebar from '../UI/Sidebar'
+
+
 
 export default class World {
     constructor() { 
         this.experience = new Experience()
         this.scene  = this.experience.scene
         this.resources = this.experience.resourses
-        
-    
+        console.log('World constructor!')
+        this.environment = new Environment()
+        this.selectedMesh = null
+        this.camera = this.experience.camera.instance
+        this.renderer = this.experience.renderer.instance
+        this.orbitControls = this.experience.camera.controls
+
+        this.sidebar = new Sidebar(() => this.selectedMesh)
             // Setup
-            this.lamp = new Lamp()
-            this.streetLight = new StreetLamp()
-            this.sun = new Sun()
-            this.floor = new Floor()
-            this.house = new House()
-            this.table = new Table()
-            this.environment = new Environment()
-
-            this.scene.fog = new THREE.FogExp2("#02343f", 0.02)
            
-        this.setAmbientLight()
-        this.setSky()
+        this.setupScene()
+ 
     }
 
-     setAmbientLight() {
-        this.ambientLight = new THREE.AmbientLight('#ffffff', 0.1)
-        this.scene.add(this.ambientLight)
+    setupScene() {
+
+        this.gridHelper = new THREE.GridHelper(5, 5, '#ffffff', '#ffffff')
+        this.scene.add(this.gridHelper)
+
+        this.transformControls = new TransformControls(this.camera,   this.renderer.domElement)
+        this.scene.add(this.transformControls._root)
+
+        this.transformControls.addEventListener('dragging-changed', (event) => {
+        this.orbitControls.enabled = !event.value
+})
+
+
+    }
+    selectMesh(mesh) {
+        this.selectedMesh = mesh
+        this.transformControls.attach(mesh)
+        this.sidebar.updateForMesh(mesh)
+        console.log('Selected mesh:', mesh);
     }
 
-    setSky() {
-        this.sky = new Sky()
-        this.sky.scale.set(100, 100, 100)
-        this.scene.add(this.sky)
-        this.sky.material.uniforms['turbidity'].value = 10
-        this.sky.material.uniforms['rayleigh'].value = 3
-        this.sky.material.uniforms['mieCoefficient'].value = 0.1
-        this.sky.material.uniforms['mieDirectionalG'].value = 0.95
-        this.sky.material.uniforms['sunPosition'].value.set(0.3, -0.038, -0.95)
-    }
+   deselectMesh() {
+       this.selectedMesh = null
+       this.transformControls.detach()
+       this.sidebar.updateForMesh(null)
+   }
 
 
-    update(){
-        this.lamp.update(this.sun.isDay)
-        this.streetLight.update(this.sun.isDay)
-
-          const sunIntensity = this.sun.sunLight.intensity
-
-        // Плавно змінюємо інтенсивність ambientLight
-        this.ambientLight.intensity += (sunIntensity - this.ambientLight.intensity) * 0.05
-    }
 }

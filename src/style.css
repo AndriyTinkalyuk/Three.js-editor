@@ -7,50 +7,122 @@
 html,
 body
 {
+    height: 100%;
     overflow: hidden;
 }
 
-.webgl
-{
-    position: fixed;
-    top: 0;
-    left: 0;
+h2 { 
+    color: #e2e6ee;
+    font-size: 1.8rem;
+    margin: 10px 0;
+}
+
+.wrapper {
+    display: flex;
+    height: 100%;
+}
+
+.canvas__container { 
+    flex: 1 1 80%;
+    height: inherit;
+    overflow: hidden;
+}
+
+.webgl {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#sidebar {
+    width: 350px;
+    height: 100%;
+    background-color: #2c3e50;
+    color: white;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .wrapper {
+        flex-direction: column;
+    }
+    #sidebar {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+    }
+    
+}
+
+.env-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+}
+.environment-button {
+    position: relative;
+    flex: 1 0 calc(33% - 10px);
+    aspect-ratio: 1/1;
+}
+
+.environment-button:hover { 
+    cursor: pointer;
+}
+
+.environment-icon {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+}
+
+.material-panel {
+    display: none;
+}
+.material-panel-item {
+    margin-bottom: 12px;
+}
+
+.input__container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input__container label {
+    font-size: 1rem;
+    color: #cfcfcf;
+    min-width: 45px;
+    flex-shrink: 0;
+}
+
+.input__file-label {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: #242933;
+    color: #e2e6ee;
+    border: 1.5px solid #383e4a;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.97rem;
+    transition: background-color 0.18s, border 0.18s, color 0.18s;
+    user-select: none;
     outline: none;
 }
 
-#loading-screen {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  background: #000;
-  color: white;
-  font-family: sans-serif;
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  transition: opacity 0.5s ease;
+.input__file-label:hover,
+.input__file-label:focus {
+    background: #353b47;
+    border-color: #56a7ff;
+    color: #fff;
 }
 
-#loading-screen.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.reset-button {
-  position: fixed;
-  bottom: 5px;
-  right: 5px;
-  z-index: 999;
-  font-size: 16px;
-  padding: 8px 15px;
-  color: #161616;
-  background-color: rgb(214, 214, 6);
-}
-
-.reset-button:hover {
-  cursor: pointer;
-    color: #000000;
-  background-color: rgb(255, 255, 0);
+.input__container input[type="file"] {
+    display: none;
 }

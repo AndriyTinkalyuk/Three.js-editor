@@ -8,6 +8,7 @@ export default class Raycaster {
         this.camera = this.experience.camera.instance
         this.canvas = this.experience.canvas
         this.sizes = this.experience.sizes
+        this.world = this.experience.world
 
         this.cursor = new THREE.Vector2()
         this.raycaster = new THREE.Raycaster()
@@ -19,34 +20,34 @@ export default class Raycaster {
         this.mouseMoveListener()
     }
 
-addItem(item) {
-  item.traverse(child => {
-    if (child.isMesh) {
-      this.items.push(child)
+    addItem(item) {
+         {
+            this.items.push(item)
+        }
     }
-  })
-}
 
-
-  clickListener() {
+clickListener(selectMesh, deselectMesh) {
   this.canvas.addEventListener("click", () => {
     this.raycaster.setFromCamera(this.cursor, this.camera)
     const intersects = this.raycaster.intersectObjects(this.items, true)
 
     if (intersects.length > 0) {
       let obj = intersects[0].object
-      // Піднімаємось вгору по дереву до того, хто має onClick
-      while (obj && !obj.userData.onClick) {
+      while (obj && !obj.isMesh) {
         obj = obj.parent
       }
-
-      if (obj && typeof obj.userData.onClick === 'function') {
-        console.log("CLICK ON OBJECT", obj.name || obj)
-        obj.userData.onClick()
+      if (obj && typeof selectMesh === 'function') {
+        selectMesh(obj)
+      }
+    } else {
+      if (typeof deselectMesh === 'function') {
+        deselectMesh()
       }
     }
   })
 }
+
+
 
 
     mouseMoveListener() { 

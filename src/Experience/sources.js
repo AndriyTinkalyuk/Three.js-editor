@@ -1,44 +1,20 @@
 export default [
     {
         name: 'environmentMapTexture',
-        type: 'cubeTexture',
-        path: [
-           'textures/environmentMap/px.jpg',
-            'textures/environmentMap/nx.jpg',
-            'textures/environmentMap/py.jpg',
-            'textures/environmentMap/ny.jpg',
-            'textures/environmentMap/pz.jpg',
-            'textures/environmentMap/nz.jpg'
-        ]
+        type: 'hdrTexture',
+        path: 'environmentMaps/1.hdr'
+   
     },
-    {
-        name: 'grassColorTexture',
-        type: 'texture',
-        path: 'textures/grass/GrassColor.jpg'
+        {
+        name: 'environmentMapTexture1',
+        type: 'hdrTexture',
+        path: 'environmentMaps/2.hdr'
+   
     },
-    {
-        name: 'grassNormalTexture',
-        type: 'texture',
-        path: 'textures/grass/GrassNormal.jpg'
+            {
+        name: 'environmentMapTexture2',
+        type: 'hdrTexture',
+        path: 'environmentMaps/3.hdr'
     },
-    {
-        name: 'houseModel',
-        type: "gltfModel",
-        path: "models/House/scene.gltf"
-    },
-     {
-        name: 'tableModel',
-        type: "gltfModel",
-        path: "models/Table/coffee_table_round_01_1k.gltf"
-    },
-    {
-        name: 'lampModel',
-        type: "gltfModel",
-        path: "models/Lamp/Lantern_01_1k.gltf"
-    },
-    {
-        name: 'streetLampModel',
-        type: "gltfModel",
-        path: "models/StreetLight/scene.gltf"
-    }
+
 ]

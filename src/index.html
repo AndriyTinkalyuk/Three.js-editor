@@ -3,15 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Light Scene</title>
+    <title>Three.js Editor</title>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div id="loading-screen">
-  <div class="loader">Завантаження...</div>
+  <div class="wrapper">
+    <div class="canvas__container">
+      <canvas class="webgl"></canvas>
+      </div>
+  <div id="sidebar">
+    <h2>Environment</h2>
+    <div class="env-selector">
+      <button class="environment-button" data-environment="environmentMapTexture"><img src="images/env1.jpg"  class="environment-icon"></button>
+      <button class="environment-button" data-environment="environmentMapTexture1"><img src="images/env2.webp" class="environment-icon"></button>
+      <button class="environment-button" data-environment="environmentMapTexture2"><img src="images/env3.webp" class="environment-icon"></button>
+    </div>
+    <h2>Import Model</h2>
+    <div class="input__container"> <label for="modelInput" class="input__file-label">Import
+    <input type="file" id="modelInput" accept=".glb, .gltf, .fbx">
+    </label>
+    </div>
+    <h2>Materials</h2>
+  <div class="material-panel" id="material-panel">
+  <div class="material-panel-item">
+    Тип матеріалу: <span id="material-type"></span>
+  </div>
+    <div class="material-panel-item">
+  <label>
+    Колір: <input type="color" id="colorPicker">
+  </label>
+  </div>
+      <div class="input__container material-panel-item">
+   <label  class="input__file-label">Map
+   <input type="file" id="mapInput">
+   </label>
 </div>
-    <canvas class="webgl"></canvas>
-    <script type="module" src="./script.js"></script>
-    <button class="reset-button">Вимкнути ручне управління лампами</button>
+      <div class="input__container material-panel-item">
+  <label class="input__file-label">Normal Map
+   <input type="file" id="normalMapInput">
+   </label>
+</div>
+<div class="material-panel-item">
+  <label>
+    Прозорість: <input type="range" min="0" max="1" step="0.01" id="opacityRange">
+    <span id="opacityValue"></span>
+  </label>
+  </div>
+</div>
+
+  </div>
+  </div>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
