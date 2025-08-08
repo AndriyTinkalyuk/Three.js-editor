@@ -30,7 +30,7 @@ export default class World {
         this.gridHelper = new THREE.GridHelper(5, 5, '#ffffff', '#ffffff')
         this.scene.add(this.gridHelper)
 
-        this.transformControls = new TransformControls(this.camera,   this.renderer.domElement)
+        this.transformControls = new TransformControls(this.camera, this.renderer.domElement)
         this.scene.add(this.transformControls._root)
 
         this.transformControls.addEventListener('dragging-changed', (event) => {

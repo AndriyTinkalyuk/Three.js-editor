@@ -42,6 +42,7 @@ export default class Experience {
     
 
         this.resourses.on('ready', () => {
+            document.querySelector('.loader').style.display = 'none'
             this.world = new World()
             console.log('Resources are ready!')
                this.raycaster.clickListener(
